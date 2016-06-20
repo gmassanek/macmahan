@@ -1,0 +1,5 @@
+<ul>
+  <% Trail.all.each do |trail| %>
+    <%= link_to trail, trail_url(trail) %>
+  <% end %>
+</ul>
