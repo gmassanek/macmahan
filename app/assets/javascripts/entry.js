@@ -1,1 +1,1 @@
-const React = require('react');
+require('./components/router.jsx');
