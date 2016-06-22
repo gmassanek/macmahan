@@ -1,1 +1,1 @@
-console.log('woohoo');
+const React = require('react');
