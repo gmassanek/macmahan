@@ -5,10 +5,11 @@
 </section>
 
 <script type="text/javascript">
-  var allMaps = ['<%= Trail.all.join('\', \'').html_safe %>'];
-  function display_gpx() {
-    var map = L.map("demo-map");
-    $.each(allMaps, function(i, mapName) {
+  var map = L.map("demo-map");
+
+  $.get("/trails.json", function(data) {
+    $.each(data, function(i, trail) {
+      var mapName = trail.file;
       var url = '/trails/' + mapName + '.gpx';
       new L.GPX(url, {
         async: true,
@@ -16,7 +17,8 @@
           startIconUrl: '',
           endIconUrl: '',
           shadowUrl: ''
-        }
+        },
+        polyline_options: trail.lineStyle,
       }).on('loaded', function(e) {
         var gpx = e.target;
         map.fitBounds(gpx.getBounds());
@@ -24,21 +26,19 @@
     });
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-      maxZoom: 22,
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 19,
       id: 'mapbox.satellite',
       accessToken: 'pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg'
     }).addTo(map);
 
-    var loc = L.control.locate({
+    L.control.locate({
       position: 'topright',
-      drawCircle: true,
+      drawCircle: false,
       drawMarker: true,
       markerStyle: {
         weight: 10,
       }
     }).addTo(map);
-    loc.start();
-  };
-
-  display_gpx();
+  });
 </script>
