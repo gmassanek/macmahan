@@ -1,0 +1,17 @@
+{
+  "name": "macmahan",
+  "version": "1.0.0",
+  "description": "MacMahan App",
+  "main": "webpack.config.js",
+  "dependencies": {
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {
+    "webpack": "^1.13.1"
+  },
+  "scripts": {
+    "build": "./node_modules/webpack/bin/webpack.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
