@@ -32,7 +32,7 @@
       accessToken: 'pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg'
     }).addTo(map);
 
-    L.control.locate({
+    locator = L.control.locate({
       position: 'topright',
       drawCircle: false,
       drawMarker: true,
@@ -40,5 +40,6 @@
         weight: 10,
       }
     }).addTo(map);
+    locator.start();
   });
 </script>
