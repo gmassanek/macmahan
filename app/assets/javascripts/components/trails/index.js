@@ -12,7 +12,10 @@ const Index = React.createClass({
   },
 
   renderMap() {
-    var map = L.map("demo-map");
+    // Build map
+    var map = L.map("demo-map").setView([43.843, -69.7095], 15);
+
+    // retrieve all trails
     $.each(this.state.trails, function(i, trail) {
       var mapName = trail.file;
       var url = '/trails/' + mapName + '.gpx';
@@ -24,23 +27,24 @@ const Index = React.createClass({
           shadowUrl: ''
         },
         polyline_options: trail.lineStyle,
-      }).on('loaded', function(e) {
-        var gpx = e.target;
-        map.fitBounds(gpx.getBounds());
       }).addTo(map);
     });
 
+    // put the map tiles on the map
     L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
+      zoom: 15,
       maxZoom: 22,
     }).addTo(map);
 
+    // drop a dot on the map for current location
     var locator = L.control.locate({
       position: 'topright',
       drawCircle: false,
       drawMarker: true,
       setView: false,
       markerStyle: {
-        weight: 10,
+        weight: 12,
+        color: '#ff4d4d'
       }
     }).addTo(map);
     locator.start();
