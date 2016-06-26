@@ -43,7 +43,7 @@ const Index = React.createClass({
       drawMarker: true,
       setView: false,
       markerStyle: {
-        weight: 12,
+        weight: 15,
         color: '#ff4d4d'
       }
     }).addTo(map);
