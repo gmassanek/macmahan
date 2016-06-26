@@ -33,7 +33,7 @@ const Index = React.createClass({
     // put the map tiles on the map
     L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
       zoom: 15,
-      maxZoom: 22,
+      maxZoom: 19,
     }).addTo(map);
 
     // drop a dot on the map for current location
