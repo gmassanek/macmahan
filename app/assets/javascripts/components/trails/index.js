@@ -39,7 +39,7 @@ const Index = React.createClass({
 
     // put the map tiles on the map
     L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
-      zoom: 15,
+      zoom: 18,
       maxZoom: 19,
     }).addTo(map);
 
@@ -58,11 +58,28 @@ const Index = React.createClass({
 
     var polyline = L.polyline([], {color: 'red'}).addTo(map);
 
-    map.on('click', (e) => {
+    map.on('singleclick', (e) => {
+      var blueIcon = L.icon({
+        iconUrl: 'images/marker-icon.png',
+        iconRetinaUrl: 'images/marker-icon.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [-3, -76],
+      });
+
+      var deleteIcon = L.icon({
+        iconUrl: 'images/marker-icon-delete.png',
+        iconRetinaUrl: 'images/marker-icon-delete.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [-3, -76],
+      });
+
       const marker = L.marker(e.latlng, {
         clickable: true,
         draggable: true,
-      }).addTo(map);
+        icon: blueIcon,
+      })
 
       this.props.masterTrail.add(marker._leaflet_id, marker.getLatLng())
       polyline.setLatLngs(this.props.masterTrail.latlng());
@@ -73,10 +90,20 @@ const Index = React.createClass({
         polyline.setLatLngs(this.props.masterTrail.latlng());
       });
 
+      marker.on('mouseout', ()=> {
+        marker.setIcon(blueIcon);
+      });
+
+      marker.on('mouseover', ()=> {
+        marker.setIcon(deleteIcon);
+      });
+
       marker.on('dragend', (e)=> {
         this.props.masterTrail.set(marker._leaflet_id, marker.getLatLng())
         polyline.setLatLngs(this.props.masterTrail.latlng());
       });
+
+      marker.addTo(map);
     });
   },
 
