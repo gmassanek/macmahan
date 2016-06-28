@@ -30,7 +30,7 @@ const Edit = React.createClass({
       contentType: 'application/json',
       data: JSON.stringify(latlngs),
       success: () => {
-        window.location = '/';
+        window.location = '/trails';
       },
     });
   },
