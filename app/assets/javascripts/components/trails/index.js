@@ -1,6 +1,13 @@
 const React = require('react');
+const Trail = require('../trail.js');
 
 const Index = React.createClass({
+  getDefaultProps() {
+    return {
+      masterTrail: new Trail,
+    };
+  },
+
   componentDidMount() {
     $.get("/trails.json", (data) => {
       this.setState({trails: data});
@@ -48,6 +55,29 @@ const Index = React.createClass({
       }
     }).addTo(map);
     locator.start();
+
+    var polyline = L.polyline([], {color: 'red'}).addTo(map);
+
+    map.on('click', (e) => {
+      const marker = L.marker(e.latlng, {
+        clickable: true,
+        draggable: true,
+      }).addTo(map);
+
+      this.props.masterTrail.add(marker._leaflet_id, marker.getLatLng())
+      polyline.setLatLngs(this.props.masterTrail.latlng());
+
+      marker.on('click', ()=> {
+        map.removeLayer(marker);
+        this.props.masterTrail.remove(marker._leaflet_id)
+        polyline.setLatLngs(this.props.masterTrail.latlng());
+      });
+
+      marker.on('dragend', (e)=> {
+        this.props.masterTrail.set(marker._leaflet_id, marker.getLatLng())
+        polyline.setLatLngs(this.props.masterTrail.latlng());
+      });
+    });
   },
 
   render() {
