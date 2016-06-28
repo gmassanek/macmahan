@@ -57,23 +57,25 @@ const Index = React.createClass({
     locator.start();
 
     var polyline = L.polyline([], {color: 'red'}).addTo(map);
+    var blueIcon = L.icon({
+      iconUrl: 'images/marker-icon.png',
+      iconRetinaUrl: 'images/marker-icon.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [-3, -76],
+    });
 
+    var deleteIcon = L.icon({
+      iconUrl: 'images/marker-icon-delete.png',
+      iconRetinaUrl: 'images/marker-icon-delete.png',
+      iconSize: [25, 41],
+      iconAnchor: [12, 41],
+      popupAnchor: [-3, -76],
+    });
+
+    var dragging = false;
     map.on('singleclick', (e) => {
-      var blueIcon = L.icon({
-        iconUrl: 'images/marker-icon.png',
-        iconRetinaUrl: 'images/marker-icon.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [-3, -76],
-      });
-
-      var deleteIcon = L.icon({
-        iconUrl: 'images/marker-icon-delete.png',
-        iconRetinaUrl: 'images/marker-icon-delete.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [-3, -76],
-      });
+      if (dragging) { return; }
 
       const marker = L.marker(e.latlng, {
         clickable: true,
@@ -81,10 +83,8 @@ const Index = React.createClass({
         icon: blueIcon,
       })
 
-      this.props.masterTrail.add(marker._leaflet_id, marker.getLatLng())
-      polyline.setLatLngs(this.props.masterTrail.latlng());
-
       marker.on('click', ()=> {
+        dragging = false;
         map.removeLayer(marker);
         this.props.masterTrail.remove(marker._leaflet_id)
         polyline.setLatLngs(this.props.masterTrail.latlng());
@@ -98,12 +98,26 @@ const Index = React.createClass({
         marker.setIcon(deleteIcon);
       });
 
-      marker.on('dragend', (e)=> {
+      var dragend = (e)=> {
+        marker.off('dragend');
+
         this.props.masterTrail.set(marker._leaflet_id, marker.getLatLng())
         polyline.setLatLngs(this.props.masterTrail.latlng());
+
+        setTimeout(() => {
+          dragging = false;
+        }, 200);
+      }
+
+      marker.on('dragstart', (e)=> {
+        marker.on('dragend', dragend);
+        dragging = true;
       });
 
       marker.addTo(map);
+
+      this.props.masterTrail.add(marker._leaflet_id, marker.getLatLng())
+      polyline.setLatLngs(this.props.masterTrail.latlng());
     });
   },
 
