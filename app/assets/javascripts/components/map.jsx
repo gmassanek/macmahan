@@ -114,6 +114,9 @@ const Map = React.createClass({
     });
 
     marker.addTo(this.state.map);
+    if(this.props.showMarkers === 'false') {
+      marker.setOpacity(0);
+    }
 
     return marker;
   },

@@ -46,12 +46,13 @@ const Edit = React.createClass({
             trails={this.state.trails}
             edit={true}
             showAll={true}
+            showMarkers={this.props.location.query.showMarkers || false}
             newMasterTrail={this.state.newMasterTrail}
             masterTrails={this.state.masterTrails} />
         </article>
         <footer>
           <a onClick={this.save} className="fa fa-save save">Save</a>
-          <a href="/trails/edit?showMarkers=false">Save</a>
+          <a href="/trails/edit?showMarkers=false">Hide Markers</a>
         </footer>
       </section>
     );

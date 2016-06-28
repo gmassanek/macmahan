@@ -10,6 +10,7 @@
 
 .gpx footer a {
   float: right;
+  padding-left: 10px;
 }
 
 .gpx footer a:before {
