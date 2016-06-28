@@ -25,7 +25,7 @@ var config = {
     ]
   },
   plugins: [
-    //new webpack.optimize.UglifyJsPlugin({minimize: true, compress: true}),
+    new webpack.optimize.UglifyJsPlugin({minimize: true, compress: true}),
   ]
 };
 
