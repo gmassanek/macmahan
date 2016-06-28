@@ -51,6 +51,7 @@ const Edit = React.createClass({
         </article>
         <footer>
           <a onClick={this.save} className="fa fa-save save">Save</a>
+          <a href="/trails/edit?showMarkers=false">Save</a>
         </footer>
       </section>
     );
