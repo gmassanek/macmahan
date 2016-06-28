@@ -2,9 +2,11 @@ const React = require('react');
 const Map = require('../map.jsx');
 const Trail = require('../trail.js');
 
-const Index = React.createClass({
+const Edit = React.createClass({
   getInitialState() {
-    return {};
+    return {
+      newMasterTrail: new Trail()
+    };
   },
 
   componentDidMount() {
@@ -17,6 +19,22 @@ const Index = React.createClass({
     });
   },
 
+  save() {
+    var latlngs = this.state.masterTrails.map((trail) => trail.saveData());
+    latlngs.push(this.state.newMasterTrail.saveData());
+    console.log(latlngs);
+
+    $.ajax({
+      type: 'POST',
+      url: '/master_trails',
+      contentType: 'application/json',
+      data: JSON.stringify(latlngs),
+      success: () => {
+        window.location = '/trails';
+      },
+    });
+  },
+
   render() {
     if (!this.state.trails) { return false; }
     if (!this.state.masterTrails) { return false; }
@@ -26,16 +44,17 @@ const Index = React.createClass({
         <article>
           <Map
             trails={this.state.trails}
-            edit={false}
+            edit={true}
             showAll={true}
+            newMasterTrail={this.state.newMasterTrail}
             masterTrails={this.state.masterTrails} />
         </article>
         <footer>
-          <a href="/trails/edit" className="fa fa-edit edit">Edit</a>
+          <a onClick={this.save} className="fa fa-save save">Save</a>
         </footer>
       </section>
     );
   }
 });
 
-module.exports = Index;
+module.exports = Edit;

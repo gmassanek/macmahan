@@ -2,7 +2,7 @@ const React = require('react');
 const Map = require('../map.jsx');
 const Trail = require('../trail.js');
 
-const Index = React.createClass({
+const Master = React.createClass({
   getInitialState() {
     return {};
   },
@@ -27,7 +27,7 @@ const Index = React.createClass({
           <Map
             trails={this.state.trails}
             edit={false}
-            showAll={true}
+            showAll={false}
             masterTrails={this.state.masterTrails} />
         </article>
         <footer>
@@ -38,4 +38,4 @@ const Index = React.createClass({
   }
 });
 
-module.exports = Index;
+module.exports = Master;

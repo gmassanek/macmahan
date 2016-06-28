@@ -9,6 +9,7 @@ class Trail
           color: colors[file[/.*\.(.*).gpx/,1]] || 'red',
           opacity: '100%',
           weight: 2,
+          interactive: false
         }
       }
     end.compact
