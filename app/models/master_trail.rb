@@ -2,6 +2,8 @@ class MasterTrail
   def self.all
     json = File.read(Rails.root.join('public/master_trails/main.json'))
     JSON.parse(json)
+  rescue
+    []
   end
 
   def self.save(json)
