@@ -2,7 +2,11 @@ class Trail {
   constructor(serverData = []) {
     this.serverData = serverData;
     this.latlngs = {};
-    this.polyline = L.polyline(serverData, {color: 'red', weight: 5});
+    this.polyline = L.polyline(serverData, {
+      color: 'red',
+      weight: 5,
+      interactive: false
+    });
   }
 
   latlng() {

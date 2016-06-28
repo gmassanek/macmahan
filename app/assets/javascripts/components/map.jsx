@@ -78,11 +78,24 @@ const Map = React.createClass({
   },
 
   addMarkerToMap(latlng, trail) {
-    const marker = L.marker(latlng, {
-      clickable: true,
-      draggable: true,
-      icon: blueIcon,
-    })
+    var options;
+
+    if(this.props.showMarkers === 'false') {
+      options = {
+        interactive: false,
+        opacity: 0,
+        draggable: false,
+        clickable: false
+      };
+    } else {
+      options = {
+        clickable: true,
+        draggable: true,
+        icon: blueIcon,
+      };
+    }
+
+    const marker = L.marker(latlng, options)
 
     marker.on('click', ()=> {
       this.dragging = false;
@@ -114,9 +127,6 @@ const Map = React.createClass({
     });
 
     marker.addTo(this.state.map);
-    if(this.props.showMarkers === 'false') {
-      marker.setOpacity(0);
-    }
 
     return marker;
   },
