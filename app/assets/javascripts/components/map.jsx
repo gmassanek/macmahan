@@ -141,10 +141,11 @@ const Map = React.createClass({
 
   renderMap() {
     this.addMapTiles();
-    this.addLocationDot();
     this.addMasterTrails();
     if(this.props.edit) {
       this.setupEditMode();
+    } else {
+      this.addLocationDot();
     };
     if(this.props.showAll) {
       this.fetchAndMapTrails();
