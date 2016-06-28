@@ -30,9 +30,6 @@ const Master = React.createClass({
             showAll={false}
             masterTrails={this.state.masterTrails} />
         </article>
-        <footer>
-          <a href="/trails/edit" className="fa fa-edit edit">Edit</a>
-        </footer>
       </section>
     );
   }
