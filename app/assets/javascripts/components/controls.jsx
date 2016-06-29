@@ -66,10 +66,21 @@ const Controls = React.createClass({
     }
   },
 
+  tagline() {
+    if(this.props.tagline) {
+      return (
+        <li className='text'>
+          {this.props.tagline}
+        </li>
+      );
+    }
+  },
+
   render() {
     return (
       <footer>
         <ul className='always'>
+          {this.tagline()}
           {this.trashRecordingView()}
           <li><a onClick={this.record}><div className={this.recordingIcon()}></div></a></li>
           <li><a onClick={this.toggleOpen} className={this.openClass()}><div className='fa fa-cog'></div></a></li>

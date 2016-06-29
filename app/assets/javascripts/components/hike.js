@@ -11,6 +11,8 @@ class Hike {
 
   reset() {
     this.latlngs = {};
+    this.beginTime = null;
+    this.endTime = null;
     this.polyline = L.polyline(this.latlng(), {
       color: '#1affff',
       weight: 2,
@@ -36,9 +38,33 @@ class Hike {
     }
   }
 
-  add(id, latlng) {
-    this.latlngs[id] = latlng;
+  add(time, latlng) {
+    if (!this.beginTime) {
+      this.beginTime = time;
+    }
+    this.endTime = time;
+
+    this.latlngs[time] = latlng;
     this.polyline.setLatLngs(this.latlng());
+  }
+
+  distance(map) {
+    var total = 0;
+    var a, b;
+    this.latlng().map((latlng) => {
+      a = b;
+      b = latlng;
+      if (a && b) {
+        total += map.distance(a, b);
+      }
+    });
+    return (total / 1609.34).toFixed(2);
+  }
+
+  time() {
+    if(this.beginTime && this.endTime) {
+      return (this.endTime - this.beginTime) / 6000;
+    }
   }
 
 };

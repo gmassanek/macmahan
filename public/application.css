@@ -46,6 +46,13 @@
   text-align: center;
 }
 
+.gpx footer ul.always li.text {
+  width: auto;
+  padding-left: 5px;
+  padding-right: 5px;
+  line-height: 30px;
+}
+
 .gpx footer ul.always li:first-child {
   border-left: none;
 }
