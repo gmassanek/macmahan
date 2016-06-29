@@ -6,7 +6,7 @@ class Trail {
 
     this.polyline = L.polyline(this.serverData.data || [], {
       color: 'red',
-      weight: 5,
+      weight: 2,
       interactive: false
     });
   }
