@@ -27,7 +27,6 @@ const Index = React.createClass({
     if (!this.state.trails) { return false; }
     if (!this.state.masterTrails) { return false; }
     if (!this.state.hikes) { return false; }
-    console.log(this.state.hikes);
 
     return (
       <section id="demo" className="gpx" data-gpx-source="demo.gpx" data-map-target="demo-map">

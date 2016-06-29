@@ -1,17 +1,21 @@
 class Hike {
   constructor(serverData) {
-    this.latlngs = {};
-    this.polyline = L.polyline(this.latlng(), {
-      color: '#ffd633',
-      weight: 2,
-      interactive: false
-    });
+    this.reset();
 
     if (serverData) {
       serverData.data.map((hikeData) => {
         this.add(hikeData.time, {lat: hikeData.lat, lng: hikeData.lng});
       });
     }
+  }
+
+  reset() {
+    this.latlngs = {};
+    this.polyline = L.polyline(this.latlng(), {
+      color: '#1affff',
+      weight: 2,
+      interactive: false
+    });
   }
 
   latlng() {

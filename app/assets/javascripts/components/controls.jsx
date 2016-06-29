@@ -6,6 +6,7 @@ const Controls = React.createClass({
     return {
       open: false,
       recording: false,
+      recorded: false,
     }
   },
 
@@ -34,6 +35,8 @@ const Controls = React.createClass({
   recordingIcon() {
     if (this.state.recording) {
       return 'fa fa-square recording';
+    } else if (this.state.recorded) {
+      return 'fa fa-save';
     } else {
       return 'fa fa-circle stopped';
     }
@@ -41,7 +44,10 @@ const Controls = React.createClass({
 
   record() {
     if (this.state.recording) {
-      this.setState({recording: false})
+      this.setState({recording: false, recorded: true})
+      this.props.stopHike()
+    } else if (this.state.recorded) {
+      this.setState({recording: false, recorded: false})
       this.props.saveHike()
     } else {
       this.setState({recording: true})
@@ -49,10 +55,22 @@ const Controls = React.createClass({
     }
   },
 
+  cancelRecording() {
+    this.setState({recording: false, recorded: false})
+    this.props.cancelHike()
+  },
+
+  trashRecordingView() {
+    if (this.state.recorded) {
+      return <li><a onClick={this.cancelRecording}><div className='fa fa-trash'></div></a></li>;
+    }
+  },
+
   render() {
     return (
       <footer>
         <ul className='always'>
+          {this.trashRecordingView()}
           <li><a onClick={this.record}><div className={this.recordingIcon()}></div></a></li>
           <li><a onClick={this.toggleOpen} className={this.openClass()}><div className='fa fa-cog'></div></a></li>
         </ul>

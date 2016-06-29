@@ -2,8 +2,10 @@ class HikesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def create
-    timename = params.permit![:hike][:data].first[:time]
-    Hike.create!(name: timename, data: params[:hike][:data])
+    if params[:hike][:data]
+      timename = params.permit![:hike][:data].first[:time]
+      Hike.create!(name: timename, data: params[:hike][:data])
+    end
     head :ok
   end
 

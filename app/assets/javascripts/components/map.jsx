@@ -167,11 +167,22 @@ const Map = React.createClass({
   },
 
   recordHike() {
+    this.cancelHike();
+
     this.state.map.on('locationfound', (e) => {
-      console.log(e);
       this.state.currentHike.add(e.timestamp, e.latlng)
     });
     this.state.currentHike.polyline.addTo(this.state.map);
+  },
+
+  stopTrackingHike() {
+    this.state.map.off('locationfound');
+  },
+
+  cancelHike() {
+    this.stopTrackingHike();
+    this.state.currentHike.polyline.remove();
+    this.state.currentHike.reset();
   },
 
   saveHike() {
@@ -180,9 +191,7 @@ const Map = React.createClass({
       url: '/hikes',
       contentType: 'application/json',
       data: JSON.stringify({hike: this.state.currentHike.saveData()}),
-      success: () => {
-        console.log('hot shit');
-      },
+      success: () => { },
     });
   },
 
@@ -237,7 +246,7 @@ const Map = React.createClass({
     return (
       <article>
         <div className="map" id="demo-map"></div>;
-        <Controls record={this.recordHike} saveHike={this.saveHike}>
+        <Controls record={this.recordHike} saveHike={this.saveHike} cancelHike={this.cancelHike} stopHike={this.stopTrackingHike}>
           <li onClick={this.toggleTrails}>
             {this.showTrailsText()}
           </li>
