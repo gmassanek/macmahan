@@ -1,5 +1,6 @@
 const React = require('react');
 const Trail = require('./trail.js');
+const Hike = require('./hike.js');
 const Controls = require('./controls.jsx');
 
 var subtleRedIcon = L.divIcon({className: 'subtle-red-marker-icon'});
@@ -9,7 +10,7 @@ const Map = React.createClass({
     return {
       showAll: this.props.showAll,
       gpx: [],
-      currentHike: new Trail(),
+      currentHike: new Hike(),
       tiles: L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
         zoom: 18,
         maxZoom: 19,
@@ -36,8 +37,8 @@ const Map = React.createClass({
       map: L.map("demo-map").setView([43.843, -69.7095], 15),
       polyline: L.polyline([], {color: 'red', weight: 5}),
     });
-
   },
+
   componentDidUpdate() {
     this.renderMap();
   },
@@ -143,26 +144,8 @@ const Map = React.createClass({
   },
 
   addLocationDot() {
-    this.state.map.on('locationfound', (e) => {
-      const marker = this.addMarkerToMap(e.latlng, this.state.currentHike);
-      this.state.currentHike.add(marker._leaflet_id, marker.getLatLng())
-    });
-    this.state.currentHike.polyline.addTo(this.state.map);
     this.state.locator.addTo(this.state.map);
     this.state.locator.start();
-  },
-
-  renderMap() {
-    this.addMapTiles();
-    this.addMasterTrails();
-    if(this.props.edit) {
-      this.setupEditMode();
-    } else {
-      this.addLocationDot();
-    };
-    if(this.state.showAll) {
-      this.fetchTrails();
-    }
   },
 
   showTrailsText() {
@@ -183,12 +166,38 @@ const Map = React.createClass({
     this.setState({ showAll: !this.state.showAll });
   },
 
+  recordHike() {
+    this.state.map.on('locationfound', (e) => {
+      console.log(e);
+      this.state.currentHike.add(e.timestamp, e.latlng)
+    });
+    this.state.currentHike.polyline.addTo(this.state.map);
+  },
+
+  saveHike() {
+    $.ajax({
+      type: 'POST',
+      url: '/hikes',
+      contentType: 'application/json',
+      data: JSON.stringify({hike: this.state.currentHike.saveData()}),
+      success: () => {
+        console.log('hot shit');
+      },
+    });
+  },
+
   saveButton() {
     if (this.props.edit) {
       return (<li onClick={this.save}>Save</li>)
     } else {
       return (<li onClick={this.edit}>Edit</li>)
     }
+  },
+
+  renderHikes() {
+    this.props.hikes.map((hike) => {
+      hike.polyline.addTo(this.state.map);
+    });
   },
 
   edit() {
@@ -210,11 +219,25 @@ const Map = React.createClass({
     });
   },
 
+  renderMap() {
+    this.addMapTiles();
+    this.addMasterTrails();
+    if(this.props.edit) {
+      this.setupEditMode();
+    } else {
+      this.addLocationDot();
+    };
+    if(this.state.showAll) {
+      this.fetchTrails();
+    }
+    this.renderHikes();
+  },
+
   render() {
     return (
       <article>
         <div className="map" id="demo-map"></div>;
-        <Controls>
+        <Controls record={this.recordHike} saveHike={this.saveHike}>
           <li onClick={this.toggleTrails}>
             {this.showTrailsText()}
           </li>

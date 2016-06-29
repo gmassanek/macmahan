@@ -1,6 +1,7 @@
 const React = require('react');
 const Map = require('../map.jsx');
 const Trail = require('../trail.js');
+const Hike = require('../hike.js');
 const Controls = require('../controls.jsx');
 
 const Index = React.createClass({
@@ -16,11 +17,17 @@ const Index = React.createClass({
     $.get("/master_trails.json", (data) => {
       this.setState({masterTrails: data.master_trails.map((t) => new Trail(t))});
     });
+
+    $.get("/hikes.json", (data) => {
+      this.setState({hikes: data.hikes.map((t) => new Hike(t))});
+    });
   },
 
   render() {
     if (!this.state.trails) { return false; }
     if (!this.state.masterTrails) { return false; }
+    if (!this.state.hikes) { return false; }
+    console.log(this.state.hikes);
 
     return (
       <section id="demo" className="gpx" data-gpx-source="demo.gpx" data-map-target="demo-map">
@@ -28,7 +35,8 @@ const Index = React.createClass({
           trails={this.state.trails}
           edit={false}
           showAll={true}
-          masterTrails={this.state.masterTrails}>
+          masterTrails={this.state.masterTrails}
+          hikes={this.state.hikes} >
 
         </Map>
       </section>

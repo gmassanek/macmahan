@@ -2,7 +2,7 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
-  width: 30px;
+  width: 60px;
   height: 30px;
   background: #fff;
   border-radius: 4px;
@@ -10,29 +10,45 @@
 }
 
 .gpx footer ul {
-  position: absolute;
   list-style: none;
-  bottom: 30px;
-  right: 0;
   background: #fff;
   border-radius: 4px;
   text-align: left;
-  margin-bottom: 10px;
   white-space: nowrap;
   padding: 0;
+  margin: 0;
 }
 
-.gpx footer li {
+.gpx footer ul.expandable {
+  position: absolute;
+  bottom: 30px;
+  right: 0;
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.gpx footer ul.expandable li {
   padding: 5px;
   border-top: 1px solid #ccc;
 }
 
-.gpx footer li:first-child {
+.gpx footer ul.expandable li:first-child {
   border-top: none;
 }
 
-.gpx footer li:hover {
+.gpx footer ul.expandable li:hover {
   cursor: pointer;
+}
+
+.gpx footer ul.always li {
+  float: left;
+  border-left: 1px solid #ccc;
+  width: 29px;
+  text-align: center;
+}
+
+.gpx footer ul.always li:first-child {
+  border-left: none;
 }
 
 .gpx footer a {
@@ -47,7 +63,14 @@
 .gpx footer a:hover {
   text-decoration: underline;
   cursor: pointer;
-  //color: blue;
+}
+
+.gpx footer a .stopped {
+  color: red;
+}
+
+.gpx footer a .recording {
+  color: blue;
 }
 
 .leaflet-marker-icon {
