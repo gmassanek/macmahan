@@ -63,7 +63,7 @@ class Hike {
 
   time() {
     if(this.beginTime && this.endTime) {
-      return (this.endTime - this.beginTime) / 6000;
+      return ((this.endTime - this.beginTime) / 6000).toFixed(2);
     }
   }
 
