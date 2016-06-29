@@ -84,7 +84,6 @@ const Map = React.createClass({
     const marker = L.marker(latlng, options)
 
     marker.on('click', ()=> {
-      console.log('click marker');
       this.dragging = false;
       this.state.map.removeLayer(marker);
       trail.remove(marker._leaflet_id)
