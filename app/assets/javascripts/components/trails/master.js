@@ -23,13 +23,11 @@ const Master = React.createClass({
 
     return (
       <section id="demo" className="gpx" data-gpx-source="demo.gpx" data-map-target="demo-map">
-        <article>
-          <Map
-            trails={this.state.trails}
-            edit={false}
-            showAll={false}
-            masterTrails={this.state.masterTrails} />
-        </article>
+        <Map
+          trails={this.state.trails}
+          edit={false}
+          showAll={false}
+          masterTrails={this.state.masterTrails} />
       </section>
     );
   }

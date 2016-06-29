@@ -1,11 +1,29 @@
 const React = require('react');
 const Trail = require('./trail.js');
+const Controls = require('./controls.jsx');
 
 var subtleRedIcon = L.divIcon({className: 'subtle-red-marker-icon'});
 
 const Map = React.createClass({
   getInitialState() {
-    return {};
+    return {
+      showAll: this.props.showAll,
+      gpx: [],
+      tiles: L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
+        zoom: 18,
+        maxZoom: 19,
+      }),
+      locator: L.control.locate({
+        position: 'topright',
+        drawCircle: false,
+        drawMarker: true,
+        setView: false,
+        markerStyle: {
+          weight: 15,
+          color: '#ff4d4d'
+        }
+      })
+    };
   },
 
   componentDidMount() {
@@ -13,17 +31,19 @@ const Map = React.createClass({
       map: L.map("demo-map").setView([43.843, -69.7095], 15),
       polyline: L.polyline([], {color: 'red', weight: 5}),
     });
-  },
 
+  },
   componentDidUpdate() {
     this.renderMap();
   },
 
-  fetchAndMapTrails() {
+  fetchTrails() {
+    if (this.state.gpx.length) { return; }
+
     $.each(this.props.trails, (i, trail) => {
       var mapName = trail.file;
       var url = '/trails/' + mapName + '.gpx';
-      new L.GPX(url, {
+      var gpx = new L.GPX(url, {
         async: true,
         marker_options: {
           startIconUrl: '',
@@ -31,16 +51,16 @@ const Map = React.createClass({
           shadowUrl: ''
         },
         polyline_options: trail.lineStyle,
-      }).addTo(this.state.map);
+      })
+      gpx.addTo(this.state.map);
+      this.state.gpx.push(gpx)
     });
   },
 
   addMasterTrails() {
     if (!this.props.masterTrails) { return };
 
-
     this.props.masterTrails.map((trail) => {
-
       if (this.props.edit) {
         trail.serverData.data.map((latlng) => {
           const marker = this.addMarkerToMap(latlng, trail);
@@ -114,24 +134,12 @@ const Map = React.createClass({
   },
 
   addMapTiles() {
-    L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
-      zoom: 18,
-      maxZoom: 19,
-    }).addTo(this.state.map);
+    this.state.tiles.addTo(this.state.map);
   },
 
   addLocationDot() {
-    var locator = L.control.locate({
-      position: 'topright',
-      drawCircle: false,
-      drawMarker: true,
-      setView: false,
-      markerStyle: {
-        weight: 15,
-        color: '#ff4d4d'
-      }
-    }).addTo(this.state.map);
-    locator.start();
+    this.state.locator.addTo(this.state.map);
+    this.state.locator.start();
   },
 
   renderMap() {
@@ -142,13 +150,40 @@ const Map = React.createClass({
     } else {
       this.addLocationDot();
     };
-    if(this.props.showAll) {
-      this.fetchAndMapTrails();
+    if(this.state.showAll) {
+      this.fetchTrails();
     }
   },
 
+  showTrailsText() {
+    if(this.state.showAll) {
+      return 'Hide Trails';
+    } else {
+      return 'Show Trails';
+    }
+  },
+
+  toggleTrails() {
+    if (this.state.showAll) {
+      this.state.gpx.map((trail) => { trail.remove(); });
+    } else {
+      this.state.gpx.map((trail) => { trail.addTo(this.state.map); });
+    };
+
+    this.setState({ showAll: !this.state.showAll });
+  },
+
   render() {
-    return <div className="map" id="demo-map"></div>;
+    return (
+      <article>
+        <div className="map" id="demo-map"></div>;
+        <Controls>
+          <li onClick={this.toggleTrails}>
+            {this.showTrailsText()}
+          </li>
+        </Controls>
+      </article>
+    );
   }
 });
 

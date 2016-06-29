@@ -1,25 +1,48 @@
 .gpx footer {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background: #fff;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.gpx footer ul {
+  position: absolute;
+  list-style: none;
+  bottom: 30px;
   right: 0;
-  left: 0;
-  width: 100%;
-  height: 20px;
-  background: #FAFAFA;
+  background: #fff;
+  border-radius: 4px;
+  text-align: left;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  padding: 0;
+}
+
+.gpx footer li {
+  padding: 5px;
+}
+
+.gpx footer li:hover {
+  cursor: pointer;
 }
 
 .gpx footer a {
-  float: right;
-  padding-left: 10px;
+  line-height: 30px;
+  font-size: 24px;
 }
 
-.gpx footer a:before {
-  padding-right: 5px;
+.gpx footer a.open {
+  //color: orange;
 }
 
 .gpx footer a:hover {
   text-decoration: underline;
   cursor: pointer;
+  color: blue;
 }
 
 .leaflet-marker-icon {

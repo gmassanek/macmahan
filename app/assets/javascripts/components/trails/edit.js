@@ -1,6 +1,7 @@
 const React = require('react');
 const Map = require('../map.jsx');
 const Trail = require('../trail.js');
+const Controls = require('../controls.jsx');
 
 const Edit = React.createClass({
   getInitialState() {
@@ -41,19 +42,18 @@ const Edit = React.createClass({
 
     return (
       <section id="demo" className="gpx" data-gpx-source="demo.gpx" data-map-target="demo-map">
-        <article>
-          <Map
-            trails={this.state.trails}
-            edit={true}
-            showAll={true}
-            showMarkers={this.props.location.query.showMarkers || false}
-            newMasterTrail={this.state.newMasterTrail}
-            masterTrails={this.state.masterTrails} />
-        </article>
-        <footer>
-          <a onClick={this.save} className="fa fa-save save">Save</a>
-          <a href="/trails/edit?showMarkers=false">Hide Markers</a>
-        </footer>
+        <Map
+          trails={this.state.trails}
+          edit={true}
+          showAll={true}
+          showMarkers={this.props.location.query.showMarkers || false}
+          newMasterTrail={this.state.newMasterTrail}
+          masterTrails={this.state.masterTrails}>
+
+          <Controls>
+            <li><a>Foo</a></li>
+          </Controls>
+        </Map>
       </section>
     );
   }
