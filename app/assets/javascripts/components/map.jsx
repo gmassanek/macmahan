@@ -210,7 +210,7 @@ const Map = React.createClass({
 
   renderHikes() {
     this.props.hikes.map((hike) => {
-      hike.polyline.addTo(this.state.map);
+      //hike.polyline.addTo(this.state.map);
     });
   },
 
