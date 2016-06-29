@@ -1,21 +1,7 @@
 const React = require('react');
 const Trail = require('./trail.js');
 
-var blueIcon = L.icon({
-  iconUrl: '/images/marker-icon.png',
-  iconRetinaUrl: '/images/marker-icon.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [-3, -76],
-});
-
-var deleteIcon = L.icon({
-  iconUrl: '/images/marker-icon-delete.png',
-  iconRetinaUrl: '/images/marker-icon-delete.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [-3, -76],
-});
+var subtleRedIcon = L.divIcon({className: 'subtle-red-marker-icon'});
 
 const Map = React.createClass({
   getInitialState() {
@@ -91,24 +77,21 @@ const Map = React.createClass({
       options = {
         clickable: true,
         draggable: true,
-        icon: blueIcon,
+        icon: subtleRedIcon,
       };
     }
 
     const marker = L.marker(latlng, options)
 
     marker.on('click', ()=> {
+      console.log('click marker');
       this.dragging = false;
       this.state.map.removeLayer(marker);
       trail.remove(marker._leaflet_id)
     });
 
     marker.on('mouseout', ()=> {
-      marker.setIcon(blueIcon);
-    });
-
-    marker.on('mouseover', ()=> {
-      marker.setIcon(deleteIcon);
+      marker.setIcon(subtleRedIcon);
     });
 
     var dragend = (e)=> {

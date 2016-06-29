@@ -21,3 +21,26 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.leaflet-marker-icon {
+  border-radius: 50%;
+  width: 12px !important;
+  height: 12px !important;
+  margin-left: -6px !important;
+  margin-top: -6px !important;
+}
+
+.subtle-red-marker-icon {
+  background: red;
+}
+
+.subtle-red-marker-icon:hover {
+  background: yellow;
+}
+
+.subtle-red-marker-icon:hover::before {
+  position: relative;
+  content: 'X';
+  top: 0px;
+  left: 2px;
+}
