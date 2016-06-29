@@ -9,6 +9,7 @@ const Map = React.createClass({
     return {
       showAll: this.props.showAll,
       gpx: [],
+      currentHike: new Trail(),
       tiles: L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
         zoom: 18,
         maxZoom: 19,
@@ -19,8 +20,12 @@ const Map = React.createClass({
         drawMarker: true,
         setView: false,
         markerStyle: {
-          weight: 15,
+          weight: 10,
           color: '#ff4d4d'
+        },
+        locateOptions: {
+          enableHighAccuracy: true,
+          watch: true,
         }
       })
     };
@@ -138,6 +143,11 @@ const Map = React.createClass({
   },
 
   addLocationDot() {
+    this.state.map.on('locationfound', (e) => {
+      const marker = this.addMarkerToMap(e.latlng, this.state.currentHike);
+      this.state.currentHike.add(marker._leaflet_id, marker.getLatLng())
+    });
+    this.state.currentHike.polyline.addTo(this.state.map);
     this.state.locator.addTo(this.state.map);
     this.state.locator.start();
   },
