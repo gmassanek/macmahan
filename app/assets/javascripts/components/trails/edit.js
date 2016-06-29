@@ -20,22 +20,6 @@ const Edit = React.createClass({
     });
   },
 
-  save() {
-    var latlngs = this.state.masterTrails.map((trail) => trail.saveData());
-    latlngs.push(this.state.newMasterTrail.saveData());
-    console.log(latlngs);
-
-    $.ajax({
-      type: 'POST',
-      url: '/master_trails/save',
-      contentType: 'application/json',
-      data: JSON.stringify(latlngs),
-      success: () => {
-        window.location = '/trails';
-      },
-    });
-  },
-
   render() {
     if (!this.state.trails) { return false; }
     if (!this.state.masterTrails) { return false; }
@@ -51,7 +35,9 @@ const Edit = React.createClass({
           masterTrails={this.state.masterTrails}>
 
           <Controls>
-            <li><a>Foo</a></li>
+            <li>
+              <a onClick={this.save}>Save</a>
+            </li>
           </Controls>
         </Map>
       </section>

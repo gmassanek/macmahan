@@ -24,6 +24,11 @@
 
 .gpx footer li {
   padding: 5px;
+  border-top: 1px solid #ccc;
+}
+
+.gpx footer li:first-child {
+  border-top: none;
 }
 
 .gpx footer li:hover {

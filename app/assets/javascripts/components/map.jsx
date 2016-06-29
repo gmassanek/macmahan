@@ -173,6 +173,33 @@ const Map = React.createClass({
     this.setState({ showAll: !this.state.showAll });
   },
 
+  saveButton() {
+    if (this.props.edit) {
+      return (<li onClick={this.save}>Save</li>)
+    } else {
+      return (<li onClick={this.edit}>Edit</li>)
+    }
+  },
+
+  edit() {
+    window.location = '/trails/edit';
+  },
+
+  save() {
+    var latlngs = this.props.masterTrails.map((trail) => trail.saveData());
+    latlngs.push(this.props.newMasterTrail.saveData());
+
+    $.ajax({
+      type: 'POST',
+      url: '/master_trails/save',
+      contentType: 'application/json',
+      data: JSON.stringify(latlngs),
+      success: () => {
+        window.location = '/trails';
+      },
+    });
+  },
+
   render() {
     return (
       <article>
@@ -181,6 +208,7 @@ const Map = React.createClass({
           <li onClick={this.toggleTrails}>
             {this.showTrailsText()}
           </li>
+          {this.saveButton()}
         </Controls>
       </article>
     );
