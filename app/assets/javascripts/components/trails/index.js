@@ -13,7 +13,7 @@ const Index = React.createClass({
     });
 
     $.get("/master_trails.json", (data) => {
-      this.setState({masterTrails: data.map((t) => new Trail(t))});
+      this.setState({masterTrails: data.master_trails.map((t) => new Trail(t))});
     });
   },
 

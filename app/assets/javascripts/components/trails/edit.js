@@ -15,7 +15,7 @@ const Edit = React.createClass({
     });
 
     $.get("/master_trails.json", (data) => {
-      this.setState({masterTrails: data.map((t) => new Trail(t))});
+      this.setState({masterTrails: data.master_trails.map((t) => new Trail(t))});
     });
   },
 
@@ -26,7 +26,7 @@ const Edit = React.createClass({
 
     $.ajax({
       type: 'POST',
-      url: '/master_trails',
+      url: '/master_trails/save',
       contentType: 'application/json',
       data: JSON.stringify(latlngs),
       success: () => {

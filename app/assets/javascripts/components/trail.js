@@ -1,8 +1,10 @@
 class Trail {
-  constructor(serverData = []) {
+  constructor(serverData = {}) {
     this.serverData = serverData;
+    this.id = serverData.id;
     this.latlngs = {};
-    this.polyline = L.polyline(serverData, {
+
+    this.polyline = L.polyline(this.serverData.data || [], {
       color: 'red',
       weight: 5,
       interactive: false
@@ -16,12 +18,15 @@ class Trail {
   }
 
   saveData() {
-    return Object.keys(this.latlngs).map((key) => {
-      return {
-        lat: this.latlngs[key].lat,
-        lng: this.latlngs[key].lng
-      };
-    });
+    return {
+      id: this.id,
+      data: Object.keys(this.latlngs).map((key) => {
+        return {
+          lat: this.latlngs[key].lat,
+          lng: this.latlngs[key].lng
+        };
+      })
+    }
   }
 
   add(id, latlng) {

@@ -56,7 +56,7 @@ const Map = React.createClass({
     this.props.masterTrails.map((trail) => {
 
       if (this.props.edit) {
-        trail.serverData.map((latlng) => {
+        trail.serverData.data.map((latlng) => {
           const marker = this.addMarkerToMap(latlng, trail);
           trail.add(marker._leaflet_id, marker.getLatLng())
         });
