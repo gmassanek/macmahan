@@ -3,11 +3,13 @@ class MasterTrailsController < ApplicationController
 
   def save
     params.permit![:_json].each do |mt_data|
-      next unless mt_data[:data]
-
       if mt_data[:id]
-        MasterTrail.find(mt_data[:id]).update_attributes!(mt_data.except(:id))
-      else
+        if mt_data[:data]
+          MasterTrail.find(mt_data[:id]).update_attributes!(mt_data.except(:id))
+        else
+          MasterTrail.find(mt_data[:id]).destroy
+        end
+      elsif mt_data[:data]
         MasterTrail.create!(mt_data.except(:id))
       end
     end
