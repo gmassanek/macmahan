@@ -42,7 +42,7 @@
 .gpx footer a:hover {
   text-decoration: underline;
   cursor: pointer;
-  color: blue;
+  //color: blue;
 }
 
 .leaflet-marker-icon {
