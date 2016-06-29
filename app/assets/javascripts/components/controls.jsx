@@ -21,7 +21,7 @@ const Controls = React.createClass({
   },
 
   renderOptions() {
-    //if (!this.state.open) { return; }
+    if (!this.state.open) { return; }
 
     return (
       <ul>
