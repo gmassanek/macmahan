@@ -4,4 +4,5 @@ class PoiSerializer < ActiveModel::Serializer
   attribute :latlng
   attribute :name
   attribute :description
+  attribute :icon_class
 end

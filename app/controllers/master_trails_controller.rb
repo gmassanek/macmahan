@@ -17,7 +17,7 @@ class MasterTrailsController < ApplicationController
   end
 
   def index
-    trails = MasterTrail.all.map { |mt| ActiveModelSerializers::SerializableResource.new(mt) }
+    trails = MasterTrail.all.map { |x| ActiveModelSerializers::SerializableResource.new(x) }
     render json: { master_trails: trails }
   end
 

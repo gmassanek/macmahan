@@ -9,6 +9,7 @@ const Map = React.createClass({
   getInitialState() {
     return {
       showHikes: false,
+      showPois: true,
       gpx: [],
       currentHike: new Poi(),
       tiles: L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
@@ -96,6 +97,7 @@ const Map = React.createClass({
     this.props.newMasterTrail.polyline.addTo(this.state.map)
 
     this.state.map.on('singleclick', (e) => {
+      console.log(JSON.stringify(e.latlng));
       if (this.dragging) { return; }
 
       const marker = this.addMarkerToMap(e.latlng, this.props.newMasterTrail);
@@ -166,6 +168,14 @@ const Map = React.createClass({
     }
   },
 
+  showPOIText() {
+    if(this.state.showPois) {
+      return 'Hide Points of Interest';
+    } else {
+      return 'Show Points of Interest';
+    }
+  },
+
   toggleHikes() {
     if (this.state.showHikes) {
       this.state.gpx.map((trail) => { trail.remove(); });
@@ -174,6 +184,17 @@ const Map = React.createClass({
     };
 
     this.setState({ showHikes: !this.state.showHikes });
+  },
+
+  togglePOI() {
+    console.log(this.state);
+    if (this.state.showPois) {
+      this.props.pois.map((poi) => { console.log(poi); poi.marker.remove(); });
+    } else {
+      this.props.pois.map((poi) => { poi.marker.addTo(this.state.map); });
+    };
+
+    this.setState({ showPois: !this.state.showPois });
   },
 
   saveButton() {
@@ -215,7 +236,9 @@ const Map = React.createClass({
     if(this.state.showHikes) {
       this.fetchTrails();
     }
-    this.renderPois();
+    if(this.state.showPois) {
+      this.renderPois();
+    }
   },
 
   render() {
@@ -226,6 +249,11 @@ const Map = React.createClass({
           <li onClick={this.toggleHikes}>
             {this.showTrailsText()}
           </li>
+
+          <li onClick={this.togglePOI}>
+            {this.showPOIText()}
+          </li>
+
           {this.saveButton()}
         </Controls>
       </article>

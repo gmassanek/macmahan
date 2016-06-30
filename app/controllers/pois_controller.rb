@@ -10,7 +10,7 @@ class PoisController < ApplicationController
   end
 
   def index
-    pois = Poi.all
+    pois = Poi.all.map { |x| ActiveModelSerializers::SerializableResource.new(x) }
     render json: { pois: pois }
   end
 
