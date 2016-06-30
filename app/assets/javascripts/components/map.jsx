@@ -2,6 +2,7 @@ const React = require('react');
 const Trail = require('./trail.js');
 const Poi = require('./poi.js');
 const Controls = require('./controls.jsx');
+const isMobile = require('ismobilejs');
 
 var subtleRedIcon = L.divIcon({className: 'subtle-red-marker-icon'});
 
@@ -38,7 +39,7 @@ const Map = React.createClass({
     const map = L.map("demo-map").setView([43.843, -69.7095], zoom);
 
 
-    if(this.props.showLocation) { this.addLocationDot(map); };
+    this.addLocationDot(map);
     this.state.tiles.addTo(map);
 
     $('#demo').addClass(`zoom-${zoom}`);
@@ -157,7 +158,7 @@ const Map = React.createClass({
 
   addLocationDot(map) {
     this.state.locator.addTo(map);
-    this.state.locator.start();
+    if(isMobile.any) { this.state.locator.start(); }
   },
 
   showTrailsText() {
