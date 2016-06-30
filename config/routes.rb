@@ -6,5 +6,5 @@ Rails.application.routes.draw do
       post :save
     end
   end
-  resources :hikes, only: [:create, :index]
+  resources :pois, only: [:create, :index]
 end
