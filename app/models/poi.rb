@@ -3,9 +3,10 @@ class Poi < ActiveRecord::Base
     @_icon_classes ||= {
       'house' => 'fa fa-home',
       'dock' => 'fa fa-anchor',
-      'post_office' => 'envelope',
-      'view' => 'eye',
-      'tennis_courts' => 'map-icon map-icon-tennis'
+      'post_office' => 'fa fa-envelope',
+      'view' => 'fa fa-eye',
+      'tennis_courts' => 'map-icon map-icon-tennis',
+      'field' => 'map-icon map-icon-map-pin'
     }
   end
 

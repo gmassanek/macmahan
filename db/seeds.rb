@@ -55,3 +55,24 @@ Poi.create!({
   latlng: '{"lat":43.842913519249024,"lng":-69.70924437046052}',
   description: ''
 })
+
+Poi.create!({
+  poi_type: 'field',
+  name: "Wilder's Field",
+  latlng: '{"lat":43.840301859029566,"lng":-69.70887690782548}',
+  description: ''
+})
+
+Poi.create!({
+  poi_type: 'field',
+  name: "Tarr's Field",
+  latlng: '{"lat":43.84620211393374,"lng":-69.70516741275789}',
+  description: ''
+})
+
+Poi.create!({
+  poi_type: 'field',
+  name: "Apple Orchard",
+  latlng: '{"lat":43.84954275360624,"lng":-69.70897346735002}',
+  description: ''
+})
