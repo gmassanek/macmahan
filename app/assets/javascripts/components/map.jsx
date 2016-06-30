@@ -1,6 +1,6 @@
 const React = require('react');
 const Trail = require('./trail.js');
-const Hike = require('./hike.js');
+const Poi = require('./poi.js');
 const Controls = require('./controls.jsx');
 
 var subtleRedIcon = L.divIcon({className: 'subtle-red-marker-icon'});
@@ -8,9 +8,9 @@ var subtleRedIcon = L.divIcon({className: 'subtle-red-marker-icon'});
 const Map = React.createClass({
   getInitialState() {
     return {
-      showAll: this.props.showAll,
+      showHikes: false,
       gpx: [],
-      currentHike: new Hike(),
+      currentHike: new Poi(),
       tiles: L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
         zoom: 18,
         maxZoom: 19,
@@ -33,8 +33,10 @@ const Map = React.createClass({
   },
 
   componentDidMount() {
+    var zoom = 15;
+    $('#demo').addClass(`zoom-${zoom}`);
     this.setState({
-      map: L.map("demo-map").setView([43.843, -69.7095], 15),
+      map: L.map("demo-map").setView([43.843, -69.7095], zoom),
       polyline: L.polyline([], {color: 'red', weight: 5}),
     });
   },
@@ -149,68 +151,32 @@ const Map = React.createClass({
   },
 
   showTrailsText() {
-    if(this.state.showAll) {
-      return 'Hide Trails';
+    if(this.state.showHikes) {
+      return 'Hide Hikes';
     } else {
-      return 'Show Trails';
+      return 'Show Hikes';
     }
   },
 
-  toggleTrails() {
-    if (this.state.showAll) {
+  toggleHikes() {
+    if (this.state.showHikes) {
       this.state.gpx.map((trail) => { trail.remove(); });
     } else {
       this.state.gpx.map((trail) => { trail.addTo(this.state.map); });
     };
 
-    this.setState({ showAll: !this.state.showAll });
-  },
-
-  recordHike() {
-    this.cancelHike();
-
-    this.state.map.on('locationfound', (e) => {
-      console.log('CHANGING');
-      this.state.currentHike.add(e.timestamp, e.latlng)
-      //this.setState({ tagline:
-      //  `${this.state.currentHike.time()}m ${this.state.currentHike.distance(this.state.map)}mi`
-      //});
-    });
-    this.state.currentHike.polyline.addTo(this.state.map);
-  },
-
-  stopTrackingHike() {
-    this.state.map.off('locationfound');
-  },
-
-  cancelHike() {
-    this.stopTrackingHike();
-    //this.setState({ tagline: null });
-    this.state.currentHike.polyline.remove();
-    this.state.currentHike.reset();
-  },
-
-  saveHike() {
-    $.ajax({
-      type: 'POST',
-      url: '/hikes',
-      contentType: 'application/json',
-      data: JSON.stringify({hike: this.state.currentHike.saveData()}),
-      success: () => { },
-    });
+    this.setState({ showHikes: !this.state.showHikes });
   },
 
   saveButton() {
     if (this.props.edit) {
       return (<li onClick={this.save}>Save</li>)
-    } else {
-      return (<li onClick={this.edit}>Edit</li>)
     }
   },
 
-  renderHikes() {
-    this.props.hikes.map((hike) => {
-      //hike.polyline.addTo(this.state.map);
+  renderPois() {
+    this.props.pois.map((poi) => {
+      poi.marker.addTo(this.state.map)
     });
   },
 
@@ -234,6 +200,11 @@ const Map = React.createClass({
   },
 
   renderMap() {
+    this.state.map.on('zoomend', (e) => {
+      $('#demo').removeClass(`zoom-${e.target._zoom + 1}`);
+      $('#demo').removeClass(`zoom-${e.target._zoom - 1}`);
+      $('#demo').addClass(`zoom-${e.target._zoom}`);
+    });
     this.addMapTiles();
     this.addMasterTrails();
     if(this.props.edit) {
@@ -241,18 +212,18 @@ const Map = React.createClass({
     } else {
       this.addLocationDot();
     };
-    if(this.state.showAll) {
+    if(this.state.showHikes) {
       this.fetchTrails();
     }
-    this.renderHikes();
+    this.renderPois();
   },
 
   render() {
     return (
       <article>
         <div className="map" id="demo-map"></div>;
-        <Controls record={this.recordHike} saveHike={this.saveHike} cancelHike={this.cancelHike} stopHike={this.stopTrackingHike} tagline={this.state.tagline}>
-          <li onClick={this.toggleTrails}>
+        <Controls tagline={this.state.tagline}>
+          <li onClick={this.toggleHikes}>
             {this.showTrailsText()}
           </li>
           {this.saveButton()}

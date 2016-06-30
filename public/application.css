@@ -79,15 +79,12 @@
   color: blue;
 }
 
-.leaflet-marker-icon {
+.subtle-red-marker-icon {
   border-radius: 50%;
   width: 12px !important;
   height: 12px !important;
   margin-left: -6px !important;
   margin-top: -6px !important;
-}
-
-.subtle-red-marker-icon {
   background: red;
 }
 
@@ -101,3 +98,27 @@
   top: 0px;
   left: 2px;
 }
+
+.poi-marker {
+  color: #3366ff;
+  text-shadow: 0px 0px 2px #333;
+}
+
+.zoom-19 .poi-marker {
+  font-size: 100px;
+  margin-left: -50px !important;
+  margin-top: -50px !important;
+}
+
+.zoom-18 .poi-marker {
+  font-size: 50px;
+  margin-left: -25px !important;
+  margin-top: -25px !important;
+}
+
+.zoom-17 .poi-marker,
+.zoom-16 .poi-marker,
+.zoom-15 .poi-marker {
+  display: none;
+}
+
