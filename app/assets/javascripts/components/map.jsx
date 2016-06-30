@@ -13,10 +13,7 @@ const Map = React.createClass({
       showPois: true,
       gpx: [],
       currentHike: new Poi(),
-      tiles: L.tileLayer('https://api.mapbox.com/styles/v1/gmassanek/ciprs7pi3000cbonocianj06b/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZ21hc3NhbmVrIiwiYSI6ImNpcG82Yzd5NzAxNzlmcm5jaThhb2hheGkifQ.fiZgE5hrmUXwMeaQAOJiDg', {
-        zoom: 18,
-        maxZoom: 19,
-      }),
+      tiles: L.tileLayer.bing('An3IeTTNxvYWS0JG5Yhb4kmNcWAthZGtNYkaURMzm-Nz6iGSZ-cgImqYhSTwxCt9'),
       locator: L.control.locate({
         position: 'topright',
         drawCircle: false,
@@ -37,7 +34,6 @@ const Map = React.createClass({
   componentDidMount() {
     const zoom = 15;
     const map = L.map("demo-map").setView([43.843, -69.7095], zoom);
-
 
     this.addLocationDot(map);
     this.state.tiles.addTo(map);
