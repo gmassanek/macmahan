@@ -36,14 +36,21 @@ const Map = React.createClass({
     const zoom = 15;
     const map = L.map("demo-map").setView([43.843, -69.7095], zoom);
 
+
+    if(this.props.showLocation) { this.addLocationDot(map); };
+    this.state.tiles.addTo(map);
+
     $('#demo').addClass(`zoom-${zoom}`);
+    map.on('zoomend', (e) => {
+      $('#demo').removeClass(`zoom-${e.target._zoom + 1}`);
+      $('#demo').removeClass(`zoom-${e.target._zoom - 1}`);
+      $('#demo').addClass(`zoom-${e.target._zoom}`);
+    });
+
     this.setState({
       map: map,
       polyline: L.polyline([], {color: 'red', weight: 5}),
     });
-    if(this.props.showLocation) {
-      this.addLocationDot(map);
-    };
   },
 
   componentDidUpdate() {
@@ -146,10 +153,6 @@ const Map = React.createClass({
     return marker;
   },
 
-  addMapTiles() {
-    this.state.tiles.addTo(this.state.map);
-  },
-
   addLocationDot(map) {
     this.state.locator.addTo(map);
     this.state.locator.start();
@@ -205,12 +208,6 @@ const Map = React.createClass({
   },
 
   renderMap() {
-    this.state.map.on('zoomend', (e) => {
-      $('#demo').removeClass(`zoom-${e.target._zoom + 1}`);
-      $('#demo').removeClass(`zoom-${e.target._zoom - 1}`);
-      $('#demo').addClass(`zoom-${e.target._zoom}`);
-    });
-    this.addMapTiles();
     this.addMasterTrails();
     if(this.props.edit) {
       this.setupEditMode();
