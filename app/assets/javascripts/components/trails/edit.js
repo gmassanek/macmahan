@@ -36,6 +36,7 @@ const Edit = React.createClass({
           trails={this.state.trails}
           edit={true}
           showMarkers={this.props.location.query.showMarkers || false}
+          showLocation={false}
           newMasterTrail={this.state.newMasterTrail}
           masterTrails={this.state.masterTrails}
           pois={this.state.pois} >

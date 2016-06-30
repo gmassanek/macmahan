@@ -33,6 +33,7 @@ const Index = React.createClass({
         <Map
           trails={this.state.trails}
           edit={false}
+          showLocation={true}
           masterTrails={this.state.masterTrails}
           pois={this.state.pois} >
 

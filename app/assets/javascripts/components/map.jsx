@@ -33,12 +33,17 @@ const Map = React.createClass({
   },
 
   componentDidMount() {
-    var zoom = 15;
+    const zoom = 15;
+    const map = L.map("demo-map").setView([43.843, -69.7095], zoom);
+
     $('#demo').addClass(`zoom-${zoom}`);
     this.setState({
-      map: L.map("demo-map").setView([43.843, -69.7095], zoom),
+      map: map,
       polyline: L.polyline([], {color: 'red', weight: 5}),
     });
+    if(this.props.showLocation) {
+      this.addLocationDot(map);
+    };
   },
 
   componentDidUpdate() {
@@ -145,8 +150,8 @@ const Map = React.createClass({
     this.state.tiles.addTo(this.state.map);
   },
 
-  addLocationDot() {
-    this.state.locator.addTo(this.state.map);
+  addLocationDot(map) {
+    this.state.locator.addTo(map);
     this.state.locator.start();
   },
 
@@ -209,9 +214,7 @@ const Map = React.createClass({
     this.addMasterTrails();
     if(this.props.edit) {
       this.setupEditMode();
-    } else {
-      this.addLocationDot();
-    };
+    }
     if(this.state.showHikes) {
       this.fetchTrails();
     }
