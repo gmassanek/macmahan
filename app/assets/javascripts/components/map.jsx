@@ -94,7 +94,6 @@ const Map = React.createClass({
     this.props.newMasterTrail.polyline.addTo(this.state.map)
 
     this.state.map.on('singleclick', (e) => {
-      console.log(JSON.stringify(e.latlng));
       if (this.dragging) { return; }
 
       const marker = this.addMarkerToMap(e.latlng, this.props.newMasterTrail);
@@ -184,9 +183,8 @@ const Map = React.createClass({
   },
 
   togglePOI() {
-    console.log(this.state);
     if (this.state.showPois) {
-      this.props.pois.map((poi) => { console.log(poi); poi.marker.remove(); });
+      this.props.pois.map((poi) => { poi.marker.remove(); });
     } else {
       this.props.pois.map((poi) => { poi.marker.addTo(this.state.map); });
     };
