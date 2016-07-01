@@ -7,8 +7,14 @@ class Trail {
     this.polyline = L.polyline(this.serverData.data || [], {
       color: '#ffd633',
       weight: 2,
-      interactive: false
+      interactive: true,
+      clickable: true
     });
+
+    this.polyline.on('click', (e) => {
+      console.log(e);
+      console.log(this.id);
+    })
   }
 
   latlng() {
