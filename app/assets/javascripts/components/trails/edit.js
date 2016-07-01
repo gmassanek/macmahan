@@ -16,9 +16,15 @@ const Edit = React.createClass({
       this.setState({trails: data});
     });
 
-    $.get("/master_trails.json", (data) => {
-      this.setState({masterTrails: data.master_trails.map((t) => new Trail(t))});
-    });
+    if (this.props.params.master_trail_id) {
+      $.get(`/master_trails/${this.props.params.master_trail_id}.json`, (data) => {
+        this.setState({ masterTrails: [new Trail(data.master_trail)] });
+      });
+    } else {
+      $.get("/master_trails.json", (data) => {
+        this.setState({masterTrails: data.master_trails.map((t) => new Trail(t))});
+      });
+    }
 
     $.get("/pois.json", (data) => {
       this.setState({pois: data.pois.map((t) => new Poi(t))});

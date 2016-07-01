@@ -12,6 +12,7 @@ $(function() {
       <Route path="/" component={TrailsIndex}></Route>
       <Route path="/trails" component={TrailsIndex}></Route>
       <Route path="/trails/edit" component={TrailsEdit}></Route>
+      <Route path="/trails/:master_trail_id/edit" component={TrailsEdit}></Route>
     </Router>
   ), document.getElementById('root'))
 });

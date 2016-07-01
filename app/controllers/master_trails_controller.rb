@@ -21,4 +21,9 @@ class MasterTrailsController < ApplicationController
     render json: { master_trails: trails }
   end
 
+  def show
+    trail = ActiveModelSerializers::SerializableResource.new(MasterTrail.find(params[:id]))
+    render json: { master_trail: trail }
+  end
+
 end
