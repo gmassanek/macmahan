@@ -16,12 +16,17 @@ const Map = React.createClass({
       tiles: L.tileLayer.bing('An3IeTTNxvYWS0JG5Yhb4kmNcWAthZGtNYkaURMzm-Nz6iGSZ-cgImqYhSTwxCt9'),
       locator: L.control.locate({
         position: 'topright',
-        drawCircle: false,
+        drawCircle: true,
         drawMarker: true,
         setView: false,
         markerStyle: {
-          weight: 10,
-          color: '#ff4d4d'
+          color: '#ff4d4d',
+          fillColor: '#ff4d4d',
+          fillOpactiy: 1
+        },
+        circleStyle: {
+          color: '#ff4d4d',
+          fillColor: '#ff4d4d',
         },
         locateOptions: {
           enableHighAccuracy: true,
