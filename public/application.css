@@ -81,10 +81,10 @@
 
 .subtle-red-marker-icon {
   border-radius: 50%;
-  width: 12px !important;
-  height: 12px !important;
-  margin-left: -6px !important;
-  margin-top: -6px !important;
+  width: 8px !important;
+  height: 8px !important;
+  margin-left: -4px !important;
+  margin-top: -4px !important;
   background: red;
 }
 
