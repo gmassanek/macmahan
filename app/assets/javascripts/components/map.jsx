@@ -175,9 +175,9 @@ const Map = React.createClass({
 
   showPOIText() {
     if(this.state.showPois) {
-      return 'Hide Points of Interest';
+      return 'Hide POIs';
     } else {
-      return 'Show Points of Interest';
+      return 'Show POIs';
     }
   },
 
@@ -249,7 +249,7 @@ const Map = React.createClass({
     return (
       <article>
         <div className="map" id="demo-map"></div>;
-        <Controls tagline={this.state.tagline}>
+        <Controls>
           <li onClick={this.toggleHikes}>
             {this.showTrailsText()}
           </li>

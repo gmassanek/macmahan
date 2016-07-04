@@ -18,43 +18,25 @@
   margin: 0;
 }
 
-.gpx footer ul.expandable {
+.gpx footer ul {
   position: absolute;
-  bottom: 30px;
+  bottom: 0;
   right: 0;
   text-align: left;
   margin-bottom: 10px;
 }
 
-.gpx footer ul.expandable li {
+.gpx footer ul li {
   padding: 5px;
   border-top: 1px solid #ccc;
 }
 
-.gpx footer ul.expandable li:first-child {
+.gpx footer ul li:first-child {
   border-top: none;
 }
 
-.gpx footer ul.expandable li:hover {
+.gpx footer ul li:hover {
   cursor: pointer;
-}
-
-.gpx footer ul.always li {
-  float: left;
-  border-left: 1px solid #ccc;
-  width: 29px;
-  text-align: center;
-}
-
-.gpx footer ul.always li.text {
-  width: auto;
-  padding-left: 5px;
-  padding-right: 5px;
-  line-height: 30px;
-}
-
-.gpx footer ul.always li:first-child {
-  border-left: none;
 }
 
 .gpx footer a {
