@@ -89,6 +89,10 @@ const Map = React.createClass({
           const marker = this.addMarkerToMap(latlng, trail);
           trail.add(marker._leaflet_id, marker.getLatLng())
         });
+
+        trail.polyline.on('click', () => {
+          window.location = `/trails/${trail.id}/edit`
+        })
       }
       trail.polyline.addTo(this.state.map);
     });

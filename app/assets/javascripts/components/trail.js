@@ -1,5 +1,5 @@
 class Trail {
-  constructor(serverData = {}) {
+  constructor(serverData = {}, editable = false) {
     this.serverData = serverData;
     this.id = serverData.id;
     this.latlngs = {};
@@ -8,7 +8,7 @@ class Trail {
       color: '#ffd633',
       weight: 2,
       opacity: 0.7,
-      interactive: false,
+      interactive: editable,
     });
   }
 

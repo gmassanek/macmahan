@@ -6,8 +6,13 @@ const Controls = require('../controls.jsx');
 
 const Edit = React.createClass({
   getInitialState() {
+    var newMasterTrail;
+    if (!this.props.params.master_trail_id) {
+      newMasterTrail = new Trail();
+    }
+
     return {
-      newMasterTrail: new Trail()
+      newMasterTrail: newMasterTrail
     };
   },
 
@@ -18,11 +23,12 @@ const Edit = React.createClass({
 
     if (this.props.params.master_trail_id) {
       $.get(`/master_trails/${this.props.params.master_trail_id}.json`, (data) => {
-        this.setState({ masterTrails: [new Trail(data.master_trail)] });
+        const trail = new Trail(data.master_trail);
+        this.setState({ masterTrails: [trail], newMasterTrail: trail});
       });
     } else {
       $.get("/master_trails.json", (data) => {
-        this.setState({masterTrails: data.master_trails.map((t) => new Trail(t))});
+        this.setState({masterTrails: data.master_trails.map((t) => new Trail(t, true))});
       });
     }
 
